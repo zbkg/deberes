@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorando el Universo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4B79FF;
+            --accent-color: #FF4B8C;
+        }
+        
+        body {
+            background-color: #0A0E1F;
+            color: #ffffff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Fondo de estrellas */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Planetas decorativos */
+        .planet {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .planet-1 {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle at 30% 30%, #FF6B6B, #845EC2);
+            right: -50px;
+            top: 20%;
+            opacity: 0.5;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .planet-2 {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 70% 70%, #4B79FF, #845EC2);
+            left: -30px;
+            top: 60%;
+            opacity: 0.3;
+            animation: float 20s infinite ease-in-out reverse;
+        }
+
+        .satellite {
+            position: absolute;
+            width: 60px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            transform-origin: right center;
+            animation: orbit 10s infinite linear;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes orbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .navbar {
+            background-color: rgba(10, 14, 31, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-section {
+            background:transparent;
+            min-height: 30vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card {
+            background: rgba(75, 121, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(75, 121, 255, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .category-pill {
+            background: rgba(75, 121, 255, 0.2);
+            border: 1px solid var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-pill:hover, .category-pill.active {
+            background: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        .text-light-emphasis {
+            color: #ffffff !important;
+        }
+
+        /* Elementos decorativos adicionales */
+        .constellation {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            opacity: 0.3;
+        }
+
+        .constellation-line {
+            stroke: white;
+            stroke-width: 1;
+            stroke-dasharray: 5;
+            animation: dash 20s linear infinite;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 1000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo de estrellas (se genera con JavaScript) -->
+    <div class="stars"></div>
+
+    <!-- Elementos decorativos -->
+    <div class="planet planet-1"></div>
+    <div class="planet planet-2"></div>
+    <div class="satellite"></div>
+
+    <!-- SVG Constelación -->
+    <svg class="constellation" viewBox="0 0 100 100" style="position: absolute; right: 10%; top: 30%;">
+        <path class="constellation-line" d="M10,10 L30,30 L50,20 L70,40 L90,30" fill="none"/>
+    </svg>
+
+   <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <i class="bi bi-galaxy text-primary me-2 fs-3"></i>
+            <span class="fs-4">Explorando el Universo</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#cursos">Cursos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#chat">Chat IA</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        Más Ciencia
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item" href="#">Astronomía</a></li>
+                        <li><a class="dropdown-item" href="#">Física Cuántica</a></li>
+                        <li><a class="dropdown-item" href="#">Astrobiología</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light ms-2" href="#suscribete">Suscríbete</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-3 fw-bold mb-4">TU MENTE ES INFINITA, ¡EXPLÓRALA!</h1>
+                <p class="lead mb-4">Más de 1.000 videos sobre astronomía, física espacial y los misterios del cosmos</p>
+                <button class="btn btn-primary btn-lg px-4">Empezar a explorar</button>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-end">
+                    <img src="https://josevicentediaz.com/wp-content/uploads/2024/06/universo-paralelo-a-otro.jpeg" alt="Exploración espacial" class="img-fluid rounded-3">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2>Explora el Universo</h2>
+        </div>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <span class="category-pill active">Todos</span>
+            <span class="category-pill">Astronomía</span>
+            <span class="category-pill">Física Cuántica</span>
+            <span class="category-pill">Cosmología</span>
+            <span class="category-pill">Astrobiología</span>
+            <span class="category-pill">Exploración Espacial</span>
+        </div>
+    </div>
+</section>
+
+<!-- Courses Grid -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Course Card 1 -->
+            <div class="col-md-4">
+                <div class="course-card card h-100">
+                    <img src="https://eco-online.es/wp-content/uploads/2024/03/Agujeros-negros.jpg" class="card-img-top" alt="Agujeros Negros">
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-2">Cosmología</span>
+                        <h5 class="card-title">Agujeros Negros: Guardianes del Espacio-Tiempo</h5>
+                        <p class="card-text text-light-emphasis">Descubre los misterios más profundos del universo.</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="Autor">
+                            <div>
+                                <small class="text-light-emphasis">Por Dr. Carlos Pérez</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Card 2 -->
+            <div class="col-md-4">
+                <div class="course-card card h-100">
+                    <img src="https://i0.wp.com/quiurevista.com/wp-content/uploads/2015/08/sol1.jpg?resize=1280%2C640&ssl=1" class="card-img-top" alt="Estrellas">
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-2">Astronomía</span>
+                        <h5 class="card-title">La Vida de las Estrellas</h5>
+                        <p class="card-text text-light-emphasis">Del nacimiento a la muerte estelar.</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="Autor">
+                            <div>
+                                <small class="text-light-emphasis">Por Dra. Ana Martínez</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Card 3 -->
+            <div class="col-md-4">
+                <div class="course-card card h-100">
+                    <img src="https://www.ngenespanol.com/wp-content/uploads/2024/04/Diseno-sin-titulo-2024-04-29T183452.193-770x385.jpg" class="card-img-top" alt="Mecánica Cuántica">
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-2">Física Cuántica</span>
+                        <h5 class="card-title">Introducción a la Mecánica Cuántica</h5>
+                        <p class="card-text text-light-emphasis">Fundamentos del universo microscópico.</p>
+                        <div class="d-flex align-items-center mt-3">
+                            <img src="/api/placeholder/40/40" class="rounded-circle me-2" alt="Autor">
+                            <div>
+                                <small class="text-light-emphasis">Por Dr. Luis Sánchez</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-5 border-top border-secondary">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>Explorando el Universo</h5>
+                <p>Descubre los secretos del cosmos a través de la ciencia y la exploración.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Enlaces Rápidos</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-light text-decoration-none">Cursos</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Blog</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Eventos</a></li>
+                    <li><a href="#" class="text-light text-decoration-none">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Síguenos</h5>
+                <div class="d-flex gap-3 fs-4">
+                    <a href="#" class="text-light"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-light"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-light"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-light"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="text-center">
+            <p class="mb-0">© 2024 Explorando el Universo. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        // Generar estrellas
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numberOfStars = 200;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Posición aleatoria
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 2;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Duración de parpadeo aleatoria
+                star.style.setProperty('--duration', `${2 + Math.random() * 3}s`);
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Llamar a la función cuando se carga la página
+        document.addEventListener('DOMContentLoaded', createStars);
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
